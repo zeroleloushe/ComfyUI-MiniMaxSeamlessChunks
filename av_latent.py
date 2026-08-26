@@ -259,3 +259,46 @@ def pack_latent(video, audio, was_nested: bool, template: Optional[dict] = None,
     if noise_mask is not None:
         out["noise_mask"] = noise_mask
     return out
+
+
+def slice_latent_chunk(video, audio, c, notes):
+    """Cut one planned window out of (video, audio), pad edges + tail.
+
+    Returns (piece_video, piece_audio).
+    """
+    T = int(video.shape[2])
+    Ta = int(audio.shape[-1]) if audio is not None else 0
+    start, end = c["raw_start"], c["raw_end"]
+    v, a, t0c, t1c, a0, a1 = slice_av_window(video, audio, start, end, Ta or None)
+
+    missing_left = t0c - start
+    missing_right = end - t1c
+    if missing_left > 0:
+        v = pad_video_head(v, missing_left)
+        if a is not None:
+            f_left = frames_for_tokens(t0c) - frames_for_tokens(max(0, start))
+            hold_a = max(0, int(round(f_left * 5.0 / 3.0)))
+            a = pad_audio_head(a, hold_a)
+        notes.append(
+            f"chunk {c['index']}: padded {missing_left} latent token(s) at left edge"
+        )
+    if missing_right > 0:
+        v = pad_video_tail(v, missing_right)
+        if a is not None:
+            hold_a = max(0, int(round((end - t1c) * (Ta / max(T, 1)))))
+            a = pad_audio_tail(a, hold_a)
+        notes.append(
+            f"chunk {c['index']}: padded {missing_right} latent token(s) at right edge"
+        )
+
+    if c["pad"] > 0:
+        v = pad_video_tail(v, c["pad"])
+        if a is not None:
+            hold_a = max(0, int(round(c["pad"] * (Ta / max(T, 1)))))
+            a = pad_audio_tail(a, hold_a)
+        notes.append(
+            f"chunk {c['index']}: +{c['pad']} duplicated latent token(s) "
+            f"to satisfy 5n+2 "
+            f"({c['raw_len']} -> {c['final_len']})"
+        )
+    return v, a
