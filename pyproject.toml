@@ -1,0 +1,14 @@
+[project]
+name = "comfyui-minimax-seamless-chunks"
+description = "MiniMax H3 seamless latent/video chunk split+merge on the 5k+2 keyframe grid."
+version = "1.0.0"
+license = {file = "LICENSE"}
+requires-python = ">=3.10"
+
+[project.urls]
+Repository = "https://github.com/zeroleloushe/ComfyUI-MiniMaxSeamlessChunks"
+
+[tool.comfy]
+PublisherId = "zeroleloushe"
+DisplayName = "MiniMax Seamless Chunks"
+Icon = ""
