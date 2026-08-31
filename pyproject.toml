@@ -1,7 +1,7 @@
 [project]
 name = "comfyui-minimax-seamless-chunks"
-description = "MiniMax H3 seamless latent/video chunk split+merge on the 5k+2 keyframe grid."
-version = "1.0.0"
+description = "MiniMax H3 seamless pixel/latent/audio chunk split+merge on the 5k+2 keyframe grid. Latent Splitter unbinds NestedTensor, snaps starts to keyframes, pads each chunk to 5k+2 — no 17-frame flicker."
+version = "1.1.0"
 license = {file = "LICENSE"}
 requires-python = ">=3.10"
 
