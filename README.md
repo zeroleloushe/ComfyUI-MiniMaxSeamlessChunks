@@ -7,6 +7,7 @@ ComfyUI custom nodes that take a finished MiniMax H3 clip (pixels **or** AV late
 > **What's new in 1.1.0.** Pixel + audio splitters/merges and Frame Calculator now ship in the same pack as the latent path. `🧬 MMH3 Latent Chunk Splitter` is registered by default (no optional import). All nine nodes load from a single `nodes.py`. Tests for the `5k+2` grid planner are included.
 
 English overview below, then the full Russian docs (graphs, I/O tables, flicker post-mortem, FAQ).
+<img width="3300" height="1050" alt="Workflow screen" src="https://github.com/user-attachments/assets/2e2f6169-7abc-4ccb-bd37-9990e3991ee7" />
 
 ---
 
